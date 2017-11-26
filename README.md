@@ -15,12 +15,22 @@ Running the showcase in docker-compose is fairly easy. Make sure that the DOCKER
 export DOCKER_USER=<your-docker-id>
 ```
 
+Add the following line to your `/etc/hosts` file:
+```
+127.0.0.1 edge-kafka
+```
+
 Then run:
 ```
 docker-compose up
 ```
 
 This assumes that the edge components are available from Docker Hub. See respective projects on how to build and push the Docker images.
+
+Finally, initialise the topics with
+```
+./initialiseTopics.sh
+```
 
 ## References
 * [Edge Anki Controller on GitHub](https://github.com/okoeth/edge-anki-twin)
