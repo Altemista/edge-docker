@@ -1,0 +1,53 @@
+# Copyright 2018 NTT Group
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this 
+# software and associated documentation files (the "Software"), to deal in the Software 
+# without restriction, including without limitation the rights to use, copy, modify, 
+# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to 
+# permit persons to whom the Software is furnished to do so, subject to the following 
+# conditions:
+
+# The above copyright notice and this permission notice shall be included in all copies 
+# or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
+# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+# DEALINGS IN THE SOFTWARE.
+
+version: "2"
+
+services:
+
+  # Note: As BLE depends on macOS, containerised version does not work
+  #edge-anki-controller:
+  #  image: okoeth/edge-anki-controller
+  #  restart: unless-stopped
+  #  environment:
+  #    - KAFKA_EDGE_SERVER=edge-kafka
+  #    - KAFKA_CLOUD_SERVER=not_yet_implemented
+  #    - ANKI_CAR_ID_1=not_yet_implemented
+  #    - ANKI_LANE_1=not_yet_implemented
+  #    - ANKI_CAR_ID_2=not_yet_implemented
+  #    - ANKI_LANE_2=not_yet_implemented
+
+  edge-kafka:
+    image: spotify/kafka
+    restart: unless-stopped
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      - ADVERTISED_HOST=127.0.0.1
+      - ADVERTISED_PORT=9092
+      - KAFKA_CREATE_TOPICS="Status:1:1,Command:1:1,Control:1:1" 
+
+  edge-anki-twin:
+    image: okoeth/edge-anki-twin
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      - KAFKA_SERVER=edge-kafka
