@@ -10,7 +10,12 @@ The edge show case is compised of the following components:
 * edge-uc-platooning: TODO
 
 ## Running the Edge Showcase in Docker
-Running the showcase in docker-compose is fairly easy. 
+Running the showcase in docker-compose is fairly easy. Make sure that the DOCKER_USER variable is set:
+```
+export DOCKER_USER=<your-docker-id>
+```
+
+Then run:
 ```
 docker-compose up
 ```

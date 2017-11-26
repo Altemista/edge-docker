@@ -23,7 +23,7 @@ services:
 
   # Note: As BLE depends on macOS, containerised version does not work
   #edge-anki-controller:
-  #  image: okoeth/edge-anki-controller
+  #  image: ${DOCKER_USER}/edge-anki-controller
   #  restart: unless-stopped
   #  environment:
   #    - KAFKA_EDGE_SERVER=edge-kafka
@@ -45,7 +45,7 @@ services:
       - KAFKA_CREATE_TOPICS="Status:1:1,Command:1:1,Control:1:1" 
 
   edge-anki-twin:
-    image: okoeth/edge-anki-twin
+    image: ${DOCKER_USER}/edge-anki-twin
     restart: unless-stopped
     ports:
       - "8001:8000"
