@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Copyright 2018 NTT Group
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this 
@@ -17,38 +19,15 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
-version: "2"
+if [ x = x$1 ]; then
+    echo "Usage: ./restart.sh <service>"
+    echo "    <service>  : The service, e.g. edge-kafka"
+  exit
+fi
+SERVICE=$1
 
-services:
-
-  # Note: As BLE depends on macOS, containerised version does not work
-  #edge-anki-controller:
-  #  image: ${DOCKER_USER}/edge-anki-controller
-  #  restart: unless-stopped
-  #  environment:
-  #    - KAFKA_EDGE_SERVER=edge-kafka
-  #    - KAFKA_CLOUD_SERVER=not_yet_implemented
-  #    - ANKI_CAR_ID_1=not_yet_implemented
-  #    - ANKI_LANE_1=not_yet_implemented
-  #    - ANKI_CAR_ID_2=not_yet_implemented
-  #    - ANKI_LANE_2=not_yet_implemented
-
-  edge-kafka:
-    image: spotify/kafka
-    #restart: unless-stopped
-    ports:
-      - "2181:2181"
-      - "9092:9092"
-    environment:
-      #- ADVERTISED_HOST=127.0.0.1
-      - ADVERTISED_HOST=edge-kafka
-      - ADVERTISED_PORT=9092
-      - KAFKA_CREATE_TOPICS="Status:1:1,Command:1:1,Control:1:1" 
-
-  edge-anki-twin:
-    image: ${DOCKER_USER}/edge-anki-twin
-    #restart: unless-stopped
-    ports:
-      - "8001:8000"
-    environment:
-      - KAFKA_SERVER=edge-kafka
+docker-compose stop $SERVICE
+docker-compose rm -f $SERVICE
+docker-compose create $SERVICE
+docker-compose start $SERVICE
+docker-compose logs $SERVICE
