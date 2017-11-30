@@ -20,4 +20,6 @@
 # DEALINGS IN THE SOFTWARE.
 
 echo "{ \"status_id\" : \"25\", \"status_name\" : \"Version\", \"version\" : 42 }" | kafkacat -P -b edge-kafka:9092 -t Status
-echo "{ \"command\" : \"ping\", \"source\" : \"cli\" }" | kafkacat -P -b edge-kafka:9092 -t Command
+echo "{ \"command\" : \"ping\", \"source\" : \"cli\" }" | kafkacat -P -b edge-kafka:9092 -t Command1
+echo "{ \"command\" : \"ping\", \"source\" : \"cli\" }" | kafkacat -P -b edge-kafka:9092 -t Command2
+echo "{ \"command\" : \"ping\", \"source\" : \"cli\" }" | kafkacat -P -b edge-kafka:9092 -t Command3
