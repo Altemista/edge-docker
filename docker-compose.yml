@@ -35,7 +35,6 @@ services:
 
   edge-kafka:
     image: spotify/kafka
-    #restart: unless-stopped
     ports:
       - "2181:2181"
       - "9092:9092"
@@ -45,7 +44,6 @@ services:
 
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
-    #restart: unless-stopped
     ports:
       - "8001:8001"
     environment:
@@ -53,8 +51,26 @@ services:
 
   edge-anki-overtake:
     image: ${DOCKER_USER}/edge-anki-overtake
-    #restart: unless-stopped
     ports:
       - "8002:8002"
     environment:
       - KAFKA_SERVER=edge-kafka
+
+  edge-elastic:
+    image: elasticsearch
+    ports:
+      - "9200:9200"
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    networks:
+      - default
+
+  edge-kibana:
+    image: kibana
+    ports:
+      - "5601:5601"
+    networks:
+      - default
+
+volumes:
+  data:
