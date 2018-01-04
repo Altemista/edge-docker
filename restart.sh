@@ -28,6 +28,6 @@ SERVICE=$1
 
 docker-compose stop $SERVICE
 docker-compose rm -f $SERVICE
-docker-compose create $SERVICE
+docker-compose up --no-start $SERVICE
 docker-compose start $SERVICE
 docker-compose logs $SERVICE
