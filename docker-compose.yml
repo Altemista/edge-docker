@@ -39,6 +39,7 @@ services:
       - "8003:8003"
     environment:
       - KAFKA_SERVER=edge-kafka
+      - CAR_HTTP_SERVER=localhost
 
   edge-kafka:
     image: spotify/kafka
