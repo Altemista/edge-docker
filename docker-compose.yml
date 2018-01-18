@@ -21,46 +21,41 @@ version: "2"
 
 services:
 
-  # Note: As BLE depends on macOS, containerised version does not work
-  #edge-anki-controller:
-  #  image: ${DOCKER_USER}/edge-anki-controller
-  #  restart: unless-stopped
-  #  environment:
-  #    - KAFKA_EDGE_SERVER=edge-kafka
-  #    - KAFKA_CLOUD_SERVER=not_yet_implemented
-  #    - ANKI_CAR_ID_1=not_yet_implemented
-  #    - ANKI_LANE_1=not_yet_implemented
-  #    - ANKI_CAR_ID_2=not_yet_implemented
-  #    - ANKI_LANE_2=not_yet_implemented
+  # car 1
+  edge-anki-controller:
+    image: ${DOCKER_USER}/edge-anki-controller
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - KAFKA_EDGE_SERVER=localhost
+      #- KAFKA_CLOUD_SERVER=not_yet_implemented
+      - HTTP_WEBSOCKET=localhost
+    volumes:
+      - /Users/APPELS/Project/edge-anki-controller:/config
 
   edge-anki-adas:
     image: ${DOCKER_USER}/edge-anki-adas
-    ports:
-      - "8003:8003"
+    network_mode: "host"
     environment:
-      - KAFKA_SERVER=edge-kafka
+      - KAFKA_SERVER=localhost
       - CAR_HTTP_SERVER=localhost
 
   edge-kafka:
     image: spotify/kafka
-    ports:
-      - "2181:2181"
-      - "9092:9092"
+    network_mode: "host"
     environment:
       - ADVERTISED_HOST=edge-kafka
       - ADVERTISED_PORT=9092
 
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
-    ports:
-      - "8001:8001"
+    network_mode: "host"
     environment:
-      - KAFKA_SERVER=edge-kafka
+      - KAFKA_SERVER=localhost
 
-  edge-elastic:
-    image: elasticsearch
-    ports:
-      - "9200:9200"
+  #edge-elastic:
+  #  image: elasticsearch
+  #  network_mode: "host"
   #  volumes:
   #    - data:/usr/share/elasticsearch/data
   #  networks:
@@ -75,13 +70,13 @@ services:
   #  networks:
   #    - default
 
-  edge-mosquitto:
-    image: eclipse-mosquitto
-    ports:
-      - "1883:1883"
-      - "9001:9001"
-    volumes:
-      - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
+  #edge-mosquitto:
+  #  image: eclipse-mosquitto
+  #  ports:
+  #    - "1883:1883"
+  #    - "9001:9001"
+  #  volumes:
+  #    - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
     
 volumes:
   data:
