@@ -33,6 +33,7 @@ services:
       - CAR_NO=1
       - CAR_INIT_BLUETOOTH_ID=ec7d32207f95
       - CAR_LANE_NO=1
+      - TRACK_CONFIG=config/eight-i3.json
     volumes:
       - /rfshome/eseuser/workspace/controller-config/car-1:/usr/src/app/mounted-config
 
@@ -48,6 +49,7 @@ services:
       - CAR_NO=2
       - CAR_INIT_BLUETOOTH_ID=edef582991e2
       - CAR_LANE_NO=4
+      - TRACK_CONFIG=config/eight-i3.json
     volumes:
       - /rfshome/eseuser/workspace/controller-config/car-2:/usr/src/app/mounted-config
  
