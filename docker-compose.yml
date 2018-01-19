@@ -58,6 +58,7 @@ services:
     devices:
       - "/dev/video0:/dev/video0"
     network_mode: "host"
+    privileged: true
     environment:
       - HTTP_WEBSOCKET=esehost:8003
 
