@@ -50,6 +50,12 @@ services:
       - CAR_LANE_NO=4
     volumes:
       - /rfshome/eseuser/workspace/controller-config/car-2:/usr/src/app/mounted-config
+ 
+  edge-anki-objectdetection:
+    image: ${DOCKER_USER}/edge-anki-objectdetection
+    network_mode: "host"
+    environment:
+      - HTTP_WEBSOCKET=esehost:8003
 
   edge-anki-adas:
     image: ${DOCKER_USER}/edge-anki-adas
