@@ -55,6 +55,8 @@ services:
  
   edge-anki-objectdetection:
     image: ${DOCKER_USER}/edge-anki-objectdetection
+    devices:
+      - "/dev/video0:/dev/video0"
     network_mode: "host"
     environment:
       - HTTP_WEBSOCKET=esehost:8003
@@ -75,6 +77,7 @@ services:
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
     network_mode: "host"
+    restart: unless-stopped
     depends_on: 
       - edge-kafka
     environment:
