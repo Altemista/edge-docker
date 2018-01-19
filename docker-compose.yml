@@ -67,6 +67,8 @@ services:
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
     network_mode: "host"
+    depends_on: 
+      - edge-kafka
     environment:
       - KAFKA_SERVER=esehost
 
