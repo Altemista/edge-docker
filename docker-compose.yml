@@ -61,6 +61,7 @@ services:
     privileged: true
     environment:
       - HTTP_WEBSOCKET=esehost:8003
+      - HTTP_IMAGE_WEBSOCKET=esehost:8001
 
   edge-anki-adas:
     image: ${DOCKER_USER}/edge-anki-adas
