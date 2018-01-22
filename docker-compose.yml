@@ -55,6 +55,7 @@ services:
  
   edge-anki-objectdetection:
     image: ${DOCKER_USER}/edge-anki-objectdetection
+    restart: unless-stopped
     devices:
       - "/dev/video0:/dev/video0"
     network_mode: "host"
@@ -66,12 +67,14 @@ services:
   edge-anki-adas:
     image: ${DOCKER_USER}/edge-anki-adas
     network_mode: "host"
+    restart: unless-stopped
     environment:
       - KAFKA_SERVER=esehost
 
   edge-kafka:
     image: spotify/kafka
     network_mode: "host"
+    restart: unless-stopped
     environment:
       - ADVERTISED_HOST=esehost
       - ADVERTISED_PORT=9092
