@@ -88,32 +88,36 @@ services:
     environment:
       - KAFKA_SERVER=esehost
 
-  #edge-elastic:
-  #  image: elasticsearch
-  #  network_mode: "host"
-  #  volumes:
-  #    - data:/usr/share/elasticsearch/data
-  #  volumes:
-  #    - data:/usr/share/elasticsearch/data
-  #  networks:
-  #    - default
+  edge-elastic:
+    image: elasticsearch
+    network_mode: "host"
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    networks:
+      - default
 
-  #edge-kibana:
-  #  image: kibana
-  #  ports:
-  #    - "5601:5601"
-  #  environment:
-  #    - ELASTICSEARCH_URL=http://edge-elastic:9200
-  #  networks:
-  #    - default
+  edge-kibana:
+    image: kibana
+    network_mode: "host"
+    environment:
+      - ELASTICSEARCH_URL=http://esehost:9200
 
-  #edge-mosquitto:
-  #  image: eclipse-mosquitto
-  #  ports:
-  #    - "1883:1883"
-  #    - "9001:9001"
-  #  volumes:
-  #    - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
+  edge-mosquitto:
+    image: eclipse-mosquitto
+    network_mode: "host"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
+
+  portainer:
+   image: portainer/portainer
+   container_name: "portainer-app"
+   command: --templates http://templates/templates.json -d /data -H tcp://<DOCKER_HOST>:<DOCKER_PORT>
+   network-mode: "host"
 
 volumes:
   data:
