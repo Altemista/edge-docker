@@ -113,10 +113,16 @@ services:
  #   volumes:
  #     - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
 #
-  portainer:
-   image: portainer/portainer
-   container_name: "portainer-app"
-   command: --templates http://templates/templates.json -d /data -v /var/run/docker.sock:/var/run/docker.sock --bind esehost:9000 portainer/portainer
+   portainer:
+     image: portainer/portainer
+     container_name: "portainer-app"
+     network_mode: host
+     volumes:
+       - unix_sock:/var/run
 
-volumes:
-  data:
+   volumes:
+      unix_sock:
+        driver_opts:
+           type: none
+           device: /var/run
+           o: bind 
