@@ -73,8 +73,6 @@ services:
     image: ${DOCKER_USER}/edge-anki-twin
     network_mode: "host"
     restart: unless-stopped
-    depends_on: 
-      - edge-kafka
     environment:
       - CAR_HTTP_SERVER=esehost
 
