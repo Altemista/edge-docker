@@ -27,9 +27,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     environment:
-      - KAFKA_EDGE_SERVER=esehost
-      #- KAFKA_CLOUD_SERVER=not_yet_implemented
-      - HTTP_WEBSOCKET=esehost:8003
+      - HTTP_ADAS_WEBSOCKET=esehost:8003
+      - HTTP_TWIN_WEBSOCKET=esehost:8001
       - CAR_NO=1
       - CAR_INIT_BLUETOOTH_ID=ec7d32207f95
       - CAR_LANE_NO=1
@@ -43,9 +42,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     environment:
-      - KAFKA_EDGE_SERVER=esehost
-      #- KAFKA_CLOUD_SERVER=not_yet_implemented
-      - HTTP_WEBSOCKET=esehost:8003
+      - HTTP_ADAS_WEBSOCKET=esehost:8003
+      - HTTP_TWIN_WEBSOCKET=esehost:8001
       - CAR_NO=2
       - CAR_INIT_BLUETOOTH_ID=edef582991e2
       - CAR_LANE_NO=4
@@ -69,15 +67,7 @@ services:
     network_mode: "host"
     restart: unless-stopped
     environment:
-      - KAFKA_SERVER=esehost
-
-  edge-kafka:
-    image: spotify/kafka
-    network_mode: "host"
-    restart: unless-stopped
-    environment:
-      - ADVERTISED_HOST=esehost
-      - ADVERTISED_PORT=9092
+      - CAR_HTTP_SERVER=esehost
 
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
@@ -86,7 +76,7 @@ services:
     depends_on: 
       - edge-kafka
     environment:
-      - KAFKA_SERVER=esehost
+      - CAR_HTTP_SERVER=esehost
 
  # edge-elastic:
  #   image: elasticsearch
