@@ -103,16 +103,16 @@ services:
  #   volumes:
  #     - ./mosquitto/config/mosquitto.conf:/usr/share/elasticsearch/data
 #
-   portainer:
-     image: portainer/portainer
-     container_name: "portainer-app"
-     network_mode: host
-     volumes:
-       - unix_sock:/var/run
+  portainer:
+    image: portainer/portainer
+    container_name: "portainer-app" 
+    network_mode: host
+    volumes:
+      - unix_sock:/var/run
 
-   volumes:
-      unix_sock:
-        driver_opts:
-           type: none
-           device: /var/run
-           o: bind 
+  volumes:
+     unix_sock:
+       driver_opts:
+          type: none
+          device: /var/run
+          o: bind 
