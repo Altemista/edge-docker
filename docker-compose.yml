@@ -27,8 +27,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     environment:
-      - HTTP_ADAS_WEBSOCKET=esehost:8003
-      - HTTP_TWIN_WEBSOCKET=esehost:8001
+      - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
       - CAR_NO=1
       - CAR_INIT_BLUETOOTH_ID=ec7d32207f95
       - CAR_LANE_NO=1
@@ -42,8 +42,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     environment:
-      - HTTP_ADAS_WEBSOCKET=esehost:8003
-      - HTTP_TWIN_WEBSOCKET=esehost:8001
+      - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
       - CAR_NO=2
       - CAR_INIT_BLUETOOTH_ID=edef582991e2
       - CAR_LANE_NO=4
@@ -59,22 +59,22 @@ services:
     network_mode: "host"
     privileged: true
     environment:
-      - HTTP_WEBSOCKET=esehost:8003
-      - HTTP_IMAGE_WEBSOCKET=esehost:8001
+      - HTTP_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_IMAGE_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
 
   edge-anki-adas:
     image: ${DOCKER_USER}/edge-anki-adas
     network_mode: "host"
     restart: unless-stopped
     environment:
-      - CAR_HTTP_SERVER=esehost
+      - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
 
   edge-anki-twin:
     image: ${DOCKER_USER}/edge-anki-twin
     network_mode: "host"
     restart: unless-stopped
     environment:
-      - CAR_HTTP_SERVER=esehost
+      - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
 
  # edge-elastic:
  #   image: elasticsearch
