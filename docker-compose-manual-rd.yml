@@ -1,0 +1,91 @@
+opyright 2018 NTT Group
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this
+# software and associated documentation files (the "Software"), to deal in the Software
+# without restriction, including without limitation the rights to use, copy, modify,
+# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to the following
+# conditions:
+
+# The above copyright notice and this permission notice shall be included in all copies
+# or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+
+version: "2"
+
+services:
+
+  # car 1
+  edge-anki-controller-1:
+    image: ${DOCKER_USER}/edge-anki-controller
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
+      - CAR_NO=1
+      - CAR_INIT_BLUETOOTH_ID=ec7d32207f95
+      - CAR_LANE_NO=1
+      - TRACK_CONFIG=config/eight-i3-rd.json
+    volumes:
+      - /rfshome/eseuser/workspace/controller-config/car-1:/usr/src/app/mounted-config
+
+  # car 2
+  edge-anki-controller-2:
+    image: ${DOCKER_USER}/edge-anki-controller
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
+      - CAR_NO=2
+      - CAR_INIT_BLUETOOTH_ID=edef582991e2
+      - CAR_LANE_NO=4
+      - TRACK_CONFIG=config/eight-i3-rd.json
+    volumes:
+      - /rfshome/eseuser/workspace/controller-config/car-2:/usr/src/app/mounted-config
+
+  edge-anki-objectdetection:
+    image: ${DOCKER_USER}/edge-anki-objectdetection
+    restart: unless-stopped
+    devices:
+      - "/dev/video0:/dev/video0"
+    network_mode: "host"
+    privileged: true
+    environment:
+      - HTTP_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
+      - HTTP_IMAGE_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
+
+  edge-anki-adas:
+    image: ${DOCKER_USER}/edge-anki-adas
+    network_mode: "host"
+    restart: unless-stopped
+    environment:
+      - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
+
+  edge-anki-twin:
+    image: ${DOCKER_USER}/edge-anki-twin
+    network_mode: "host"
+    restart: unless-stopped
+    environment:
+      - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
+
+  portainer:
+      image: portainer/portainer
+      container_name: "portainer-app"
+      network_mode: host
+      volumes:
+        - unix_sock:/var/run
+
+volumes:
+   unix_sock:
+     driver_opts:
+        type: none
+        device: /var/run
+        o: bind
