@@ -75,6 +75,7 @@ services:
     restart: unless-stopped
     environment:
       - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
+      - CAR_CONFIG_FILE=cars.json
 
   portainer:
       image: portainer/portainer
