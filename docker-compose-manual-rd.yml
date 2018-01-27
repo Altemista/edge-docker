@@ -29,6 +29,7 @@ services:
     environment:
       - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
       - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
+      - HTTP_BEATS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8004
       - CAR_NO=1
       - CAR_INIT_BLUETOOTH_ID=ec7d32207f95
       - CAR_LANE_NO=1
@@ -44,6 +45,7 @@ services:
     environment:
       - HTTP_ADAS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8003
       - HTTP_TWIN_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932:8001
+      - HTTP_BEATS_WEBSOCKET=bd99e917-1759-4af8-9311-dc718512b932
       - CAR_NO=2
       - CAR_INIT_BLUETOOTH_ID=edef582991e2
       - CAR_LANE_NO=4
@@ -76,6 +78,13 @@ services:
     environment:
       - CAR_HTTP_SERVER=bd99e917-1759-4af8-9311-dc718512b932
       - CAR_CONFIG_FILE=cars.json
+
+  edge-anki-beats:
+    image: ${DOCKER_USER}/edge-anki-beat
+    network_mode: "host"
+    restart: unless-stopped
+    environment:
+      _ ELASTIC_URL=http://localhost:9200
 
   portainer:
       image: portainer/portainer
